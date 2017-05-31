@@ -74,7 +74,11 @@
 		<RepName><xsl:value-of select="RepName"/></RepName>
 		<RepPhone><xsl:value-of select="RepPhone"/></RepPhone>
 		<RepEMAddress><xsl:value-of select="RepEMAddress"/></RepEMAddress>
+		<Version><xsl:value-of select="Version"/></Version>
+		<RepHighDivision><xsl:value-of select="RepHighDivision"/></RepHighDivision>
 		<RepDivision><xsl:value-of select="RepDivision"/></RepDivision>
+		<Sequence><xsl:value-of select="Sequence"/></Sequence>
+		<Barcode><xsl:value-of select="Barcode"/></Barcode>
 	</tag>
 	
 					</xsl:for-each>

@@ -144,6 +144,7 @@
 	<fo:block font="13pt FiraSans-italic" margin-top=".35in" margin-bottom=".35in">Our records indicate that you have yet to order ONE of the following resources:</fo:block>
 
 <!-- page_3_tables -->
+<!--
 <xsl:choose>
 	<xsl:when test="@count > 16">
 		<fo:block>QQQQ - greater than 16 - <xsl:value-of select="@count"/></fo:block>
@@ -152,30 +153,27 @@
 		<fo:block>QQQQ - less than 16 - <xsl:value-of select="@count"/></fo:block>
 	</xsl:otherwise>
 </xsl:choose>
-
-  <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain">
+-->
+<!-- TABLE 1 - OPTION 2 -->
+  <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain" rx:table-omit-initial-header="true">
       <fo:table-column column-width="15%"/>
       <fo:table-column column-width="70%"/>
       <fo:table-column column-width="15%"/>
       
 
-
-
-
   		<fo:table-header>
 				<xsl:call-template name="page_3_table_header">
 					<xsl:with-param name="option" select="'2'"/>
-<!--
 					<xsl:with-param name="continued" select="'y'"/>
--->
 				</xsl:call-template>
 			</fo:table-header>
       <fo:table-body>
-<!--
+
+<xsl:if test="@count &lt; 17">
 					<xsl:call-template name="page_3_table_header">
 						<xsl:with-param name="option" select="'2'"/>
 					</xsl:call-template>
--->
+</xsl:if>
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -202,24 +200,25 @@
       </fo:table-body>
   </fo:table>
 
-  <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain">
+<!-- TABLE 2 - OPTION 3 -->
+
+  <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain" rx:table-omit-initial-header="true">
       <fo:table-column column-width="15%"/>
       <fo:table-column column-width="70%"/>
       <fo:table-column column-width="15%"/>
   		<fo:table-header>
 				<xsl:call-template name="page_3_table_header">
 					<xsl:with-param name="option" select="'3'"/>
-<!--
 					<xsl:with-param name="continued" select="'y'"/>
--->
 				</xsl:call-template>
 			</fo:table-header>
       <fo:table-body>
-<!--
+<xsl:if test="@count &lt; 25">
 					<xsl:call-template name="page_3_table_header">
-						<xsl:with-param name="option" select="'2'"/>
+						<xsl:with-param name="option" select="'3'"/>
 					</xsl:call-template>
--->
+</xsl:if>
+      	
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -255,22 +254,27 @@
           </fo:table-row>
       </fo:table-body>
   </fo:table>
-  
-  <fo:table border=".25pt solid black" keep-together="always">
+ 
+ <!-- TABLE 3 - OPTION 1 -->
+ 
+  <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain" rx:table-omit-initial-header="true">
       <fo:table-column column-width="15%"/>
       <fo:table-column column-width="70%"/>
       <fo:table-column column-width="15%"/>
   		<fo:table-header>
 				<xsl:call-template name="page_3_table_header">
 					<xsl:with-param name="option" select="'1'"/>
+					<xsl:with-param name="continued" select="'y'"/>
 				</xsl:call-template>
 			</fo:table-header>
       <fo:table-body>
-<!--
+
+<xsl:if test="@count &lt; 17">
 					<xsl:call-template name="page_3_table_header">
-						<xsl:with-param name="option" select="'2'"/>
+						<xsl:with-param name="option" select="'1'"/>
 					</xsl:call-template>
--->
+</xsl:if>
+
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -289,7 +293,7 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="format-number(Opt3ICPrice,'$###,###,###.00')"/></fo:block>
+						      	<fo:block><xsl:value-of select="format-number(Opt1Price,'$###,###,###.00')"/></fo:block>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
@@ -310,6 +314,7 @@
 					<xsl:choose>
 						<xsl:when test="$option='2'">
 							CCH® Answer<fo:inline font-family="FiraSans-italic">Connect</fo:inline>
+							<xsl:if test="$continued='y'"><fo:inline font-family="FiraSans-italic">&#160;&#160;&#160;continued</fo:inline></xsl:if>
 						</xsl:when>
 						<xsl:when test="$option='3'">
 							CCH® Answer<fo:inline font-family="FiraSans-bolditalic">Connect</fo:inline> AND CCH® IntelliConnect®
@@ -317,6 +322,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							CCH® IntelliConnect®
+							<xsl:if test="$continued='y'"><fo:inline font-family="FiraSans-italic">&#160;&#160;&#160;continued</fo:inline></xsl:if>
 						</xsl:otherwise>
 					</xsl:choose>
 					</fo:block>
@@ -325,7 +331,7 @@
     </fo:table-cell>
   </fo:table-row>
 
-  <fo:table-row font="8pt FiraSans-bold" line-height=".3in">
+  <fo:table-row font="8pt FiraSans-bold" line-height=".3in" keep-with-next="always" keep-with-previous="always">
       <fo:table-cell border=".25pt solid black" padding-left=".2in">
       	<fo:block>Material ID</fo:block>
       </fo:table-cell>
@@ -346,13 +352,22 @@
 
 	<fo:block font="12pt FiraSans-medium">
 		<xsl:if test="$showdate='yes'">
-	  	<fo:block margin-top=".4in" margin-bottom=".4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
+<!--
+	  	<fo:block margin-top=".4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
+	  	<fo:block margin-top=".4in" margin-bottom="0.4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
+-->
+	  	<fo:block margin-top=".4in" margin-bottom="0.4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
 	  </xsl:if>
+
+  	<fo:block margin-top="-0.25in" font-size="8pt" ><xsl:value-of select="tag[1]/Sequence"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/SoldToName"/></fo:block>
-	  <fo:block><xsl:value-of select="tag[1]/ShipToFirstName"/>&#160;<xsl:value-of select="tag[1]/ShipToLastName"/> </fo:block>
+	  <xsl:if test="string-length(tag[1]/ShipToFirstName) > 0">
+	  	<fo:block><xsl:value-of select="tag[1]/ShipToFirstName"/>&#160;<xsl:value-of select="tag[1]/ShipToLastName"/> </fo:block>
+	  </xsl:if>
 	  <fo:block><xsl:value-of select="tag[1]/ShipToAddress"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/ShipToAddress2"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/ShipToCity"/>&#160;<xsl:value-of select="tag[1]/ShipToState"/>&#160;<xsl:value-of select="tag[1]/ShipToZip"/></fo:block>
+	  <fo:block margin-top="0.0in" font-family="Barcode"><xsl:value-of select="tag[1]/Barcode"/></fo:block>
 	</fo:block>
 </xsl:template>
 
@@ -403,13 +418,21 @@
 											             rule-thickness="0.5pt" color="black"/>
 										</fo:block>
                   	<fo:block font="11pt FiraSans-book">
-                  		We hope you have been able to Search Less, Do More with <fo:inline font-family="FiraSans-bold">CCH® Answer<fo:inline font-family="FiraSans-bolditalic">Connect!</fo:inline></fo:inline>
+                  		We hope you have been able to Search Less, Do More™ with <fo:inline font-family="FiraSans-bold">CCH® Answer<fo:inline font-family="FiraSans-bolditalic">Connect!</fo:inline></fo:inline>
                   	</fo:block>
                   	<fo:block>
-										Make sure you and your team continue to have access by renewing today at PORTAL URL.
+										Make sure you and your team continue to have access by renewing today at 
+										<xsl:if test="tag[1]/Version='Portal'"><fo:inline font-family="FiraSans-bold">renewcch.com</fo:inline></xsl:if>.
                   	</fo:block>
                   	<fo:block>
-											Your user name is: <xsl:value-of select="tag[1]/ShipToEMAddress"/>
+                  		<xsl:choose>
+                  			<xsl:when test="tag[1]/Version='Portal'">
+												Your user name is: <xsl:value-of select="tag[1]/ShipToEMAddress"/>
+                  		</xsl:when>
+                  		<xsl:otherwise>
+                  			&#160;
+                  		</xsl:otherwise>
+                  	</xsl:choose>
                   	</fo:block>
                     <fo:block margin-top=".15in" 
                     	margin-left="0.00in"
@@ -451,8 +474,10 @@
 						        
 						        <fo:block font="11pt FiraSans-medium" margin-top=".25in">Renew today and avoid any interruption in your service.</fo:block>
 						        <fo:block margin-top="0.02in">
+<!--
 						        	<fo:inline font-family="FiraSans-mediumitalic">Questions regarding this renewal or want to cancel?</fo:inline> Contact your solution consultant:<fo:block><xsl:value-of select="tag[1]/RepName"/>; <xsl:value-of select="tag[1]/RepPhone"/>, <xsl:value-of select="tag[1]/RepEMAddress"/></fo:block>
-						        </fo:block>
+-->
+						        	Contact your Solution Consultant if you have questions on multiyear agreements, this renewal or to cancel.</fo:block>
 						        <fo:block font="8.5pt FiraSans-mediumitalic" margin-top="0.2in" text-indent='-0.75em' start-indent='1em'>
 						        	* Renewal must be completed by an authorized subscriber or user. It is up to the user to contact the subscriber for
 permission to renew. This is not an invoice. Your subscription will not renew until payment is received online or
@@ -484,11 +509,16 @@ via customer support. Prices do not include sales tax or other fees including sh
                       <fo:block>800-344-3734</fo:block>
 
                       <fo:block font="12pt FiraSans-medium" margin-top="1in">
+			                	<xsl:call-template name="address_block">
+			                		<xsl:with-param name="showdate" select="'no'"/>
+			                	</xsl:call-template>
+<!--                      	
                         <fo:block ><xsl:value-of select="tag[1]/SoldToName"/></fo:block>
                         <fo:block><xsl:value-of select="tag[1]/ShipToFirstName"/>&#160;<xsl:value-of select="tag[1]/ShipToLastName"/> </fo:block>
                         <fo:block><xsl:value-of select="tag[1]/ShipToAddress"/></fo:block>
                         <fo:block><xsl:value-of select="tag[1]/ShipToAddress2"/></fo:block>
                         <fo:block><xsl:value-of select="tag[1]/ShipToCity"/>&#160;<xsl:value-of select="tag[1]/ShipToState"/>&#160;<xsl:value-of select="tag[1]/ShipToZip"/></fo:block>
+-->
                       </fo:block>
 
                  			<fo:block margin-top=".5in" margin-left="-.75in" font="6.25pt FiraSans-mediumitalic">DETACH THIS PORTION AND MAIL THIS ORDER FORM IN THE REPLY ENVELOPE PROVIDED.</fo:block>
