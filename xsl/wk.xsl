@@ -178,21 +178,27 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="Opt2Material"/></fo:block>
+										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+							      	<fo:block><xsl:value-of select="Opt2Material"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
+										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="format-number(Opt2Price,'$###,###,###.00')"/></fo:block>
+										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+							      	<fo:block><xsl:value-of select="format-number(Opt2Price,'$###,###,###.00')"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
@@ -223,31 +229,42 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="Opt3ACMaterial"/></fo:block>
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="Opt3ACMaterial"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="Opt3ICMaterial"/></fo:block>
-						      </xsl:for-each>
-
-              	</fo:block>
-              </fo:table-cell>
-              <fo:table-cell border=".25pt solid black" padding-left=".2in">
-              	<fo:block>
-						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
-						      </xsl:for-each>
-						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="MaterialDesc"/></fo:block>
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="Opt3ICMaterial"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="format-number(Opt3ACPrice,'$###,###,###.00')"/></fo:block>
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
 						      <xsl:for-each select="tag">
-						      	<fo:block><xsl:value-of select="format-number(Opt3ICPrice,'$###,###,###.00')"/></fo:block>
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="MaterialDesc"/></fo:block>
+							      </xsl:if>
+						      </xsl:for-each>
+              	</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border=".25pt solid black" padding-left=".2in">
+              	<fo:block>
+						      <xsl:for-each select="tag">
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="format-number(Opt3ACPrice,'$###,###,###.00')"/></fo:block>
+							      </xsl:if>
+						      </xsl:for-each>
+						      <xsl:for-each select="tag">
+										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+							      	<fo:block><xsl:value-of select="format-number(Opt3ICPrice,'$###,###,###.00')"/></fo:block>
+							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
@@ -359,8 +376,16 @@
 	  	<fo:block margin-top=".4in" margin-bottom="0.4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
 	  </xsl:if>
 
+<!--
+  	<fo:block margin-top="-0.25in" font-size="8pt" >seq-<xsl:value-of select="tag[1]/Sequence"/>-</fo:block>
+-->
   	<fo:block margin-top="-0.25in" font-size="8pt" ><xsl:value-of select="tag[1]/Sequence"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/SoldToName"/></fo:block>
+
+<!--
+	  	<fo:block><xsl:value-of select="string-length(tag[1]/ShipToFirstName)"/>&#160;<xsl:value-of select="string-length(tag[1]/ShipToFirstName)>0"/><xsl:value-of select="tag[1]/ShipToLastName"/> </fo:block>
+-->
+
 	  <xsl:if test="string-length(tag[1]/ShipToFirstName) > 0">
 	  	<fo:block><xsl:value-of select="tag[1]/ShipToFirstName"/>&#160;<xsl:value-of select="tag[1]/ShipToLastName"/> </fo:block>
 	  </xsl:if>
@@ -421,8 +446,7 @@
                   		We hope you have been able to Search Less, Do More™ with <fo:inline font-family="FiraSans-bold">CCH® Answer<fo:inline font-family="FiraSans-bolditalic">Connect!</fo:inline></fo:inline>
                   	</fo:block>
                   	<fo:block>
-										Make sure you and your team continue to have access by renewing today at 
-										<xsl:if test="tag[1]/Version='Portal'"><fo:inline font-family="FiraSans-bold">renewcch.com</fo:inline></xsl:if>.
+										Make sure you and your team continue to have access by renewing today<xsl:if test="tag[1]/Version='Portal'"> at <fo:inline font-family="FiraSans-bold">renewcch.com</fo:inline></xsl:if>.
                   	</fo:block>
                   	<fo:block>
                   		<xsl:choose>
@@ -477,7 +501,8 @@
 <!--
 						        	<fo:inline font-family="FiraSans-mediumitalic">Questions regarding this renewal or want to cancel?</fo:inline> Contact your solution consultant:<fo:block><xsl:value-of select="tag[1]/RepName"/>; <xsl:value-of select="tag[1]/RepPhone"/>, <xsl:value-of select="tag[1]/RepEMAddress"/></fo:block>
 -->
-						        	Contact your Solution Consultant if you have questions on multiyear agreements, this renewal or to cancel.</fo:block>
+						        	Contact your Solution Consultant if you have questions on multiyear agreements, this renewal or to cancel. <xsl:value-of select="tag[1]/RepName"/>, 
+						        	<xsl:if test="string-length(tag[1]/RepPhone)>0"><xsl:value-of select="tag[1]/RepPhone"/>, </xsl:if><xsl:value-of select="tag[1]/RepEMAddress"/></fo:block>
 						        <fo:block font="8.5pt FiraSans-mediumitalic" margin-top="0.2in" text-indent='-0.75em' start-indent='1em'>
 						        	* Renewal must be completed by an authorized subscriber or user. It is up to the user to contact the subscriber for
 permission to renew. This is not an invoice. Your subscription will not renew until payment is received online or
@@ -535,7 +560,7 @@ via customer support. Prices do not include sales tax or other fees including sh
 								            <fo:table-body font-family="FiraSans-bold">
 								                <fo:table-row background="#ECEDEE" line-height=".3125in">
 								                    <fo:table-cell><fo:block line-height=".1in" margin-left=".1in" margin-top=".1in" height=".015in" width=".1in" border="0.5pt solid black">&#160;</fo:block></fo:table-cell>
-								                    <fo:table-cell><fo:block>CCH Answer<fo:inline font-family="FiraSans-bolditalic">Connect!</fo:inline></fo:block></fo:table-cell>
+								                    <fo:table-cell><fo:block>CCH Answer<fo:inline font-family="FiraSans-bolditalic">Connect</fo:inline></fo:block></fo:table-cell>
 								                    <fo:table-cell><fo:block font-family="FiraSans-regular"><xsl:value-of select="format-number(@opt2total,'$###,###,###.00')"/></fo:block></fo:table-cell>
 						                   </fo:table-row>
 								                <fo:table-row background="#ECEDEE" line-height=".3125in">
