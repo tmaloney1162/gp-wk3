@@ -23,7 +23,7 @@
                 	<xsl:call-template name="page_one"/>
                 </fo:flow>
             </fo:page-sequence>
-            <fo:page-sequence master-reference="other-page" initial-page-number="2" force-page-count="no-force">
+            <fo:page-sequence master-reference="other-page" initial-page-number="2" force-page-count="even">
 <!--            	<fo:static-content flow-name="xsl-region-before"  padding-bottom="2in">  -->
 		<fo:static-content flow-name="xsl-region-before">
 			<fo:block xmlns:xep="http://www.renderx.com/XEP/xep" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" font="12pt Times" space-before="6pt" space-after="6pt">
@@ -178,7 +178,7 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+										<xsl:if test="not(Opt2ICFlag = 'C' and Opt2ACFlag = 'R')">
 							      	<fo:block><xsl:value-of select="Opt2Material"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
@@ -187,7 +187,7 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+										<xsl:if test="not(Opt2ICFlag = 'C' and Opt2ACFlag = 'R')">
 							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
@@ -196,7 +196,7 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt2ICFlag = 'C') and not(Opt2ACFlag = 'R')">
+										<xsl:if test="not(Opt2ICFlag = 'C' and Opt2ACFlag = 'R')">
 							      	<fo:block><xsl:value-of select="format-number(Opt2Price,'$###,###,###.00')"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
@@ -229,42 +229,36 @@
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+										<xsl:if test="not(Opt3ACFlag = 'R' or Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="Opt3ACMaterial"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="Opt3ICMaterial"/></fo:block>
-							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+										<xsl:if test="not(Opt3ACFlag = 'R' or Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="MaterialDesc"/></fo:block>
-							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
+										<xsl:if test="not(Opt3ACFlag = 'R' or Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="format-number(Opt3ACPrice,'$###,###,###.00')"/></fo:block>
 							      </xsl:if>
 						      </xsl:for-each>
 						      <xsl:for-each select="tag">
-										<xsl:if test="not(Opt3ACFlag = 'C') and not(Opt3ACFlag = 'D')">
 							      	<fo:block><xsl:value-of select="format-number(Opt3ICPrice,'$###,###,###.00')"/></fo:block>
-							      </xsl:if>
 						      </xsl:for-each>
               	</fo:block>
               </fo:table-cell>
@@ -370,7 +364,7 @@
 	<fo:block font="12pt FiraSans-medium">
 		<xsl:if test="$showdate='yes'">
 <!--
-	  	<fo:block margin-top=".4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
+	16pt   	<fo:block margin-top=".4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
 	  	<fo:block margin-top=".4in" margin-bottom="0.4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
 -->
 	  	<fo:block margin-top=".4in" margin-bottom="0.4in"><xsl:value-of select="tag[1]/DateOnMailPiece"/></fo:block>
@@ -392,7 +386,7 @@
 	  <fo:block><xsl:value-of select="tag[1]/ShipToAddress"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/ShipToAddress2"/></fo:block>
 	  <fo:block><xsl:value-of select="tag[1]/ShipToCity"/>&#160;<xsl:value-of select="tag[1]/ShipToState"/>&#160;<xsl:value-of select="tag[1]/ShipToZip"/></fo:block>
-	  <fo:block margin-top="0.0in" font-family="Barcode"><xsl:value-of select="tag[1]/Barcode"/></fo:block>
+	  <fo:block margin-top="0.0in" font="16pt Barcode"><xsl:value-of select="tag[1]/Barcode"/></fo:block>
 	</fo:block>
 </xsl:template>
 
@@ -436,13 +430,15 @@
               <fo:table-row height="3in">
                   <fo:table-cell  number-columns-spanned="2">
 <!-- fold line 1 -->
+<!--
                   	<fo:block margin-top="-0.7in">
 											<fo:leader margin-left="-1in" leader-length="8.15in"
 											             leader-pattern="rule"
 											             alignment-baseline="middle"
 											             rule-thickness="0.5pt" color="black"/>
 										</fo:block>
-                  	<fo:block font="11pt FiraSans-book">
+-->										
+                  	<fo:block margin-top="-0.55in" font="11pt FiraSans-book">
                   		We hope you have been able to Search Less, Do More™ with <fo:inline font-family="FiraSans-bold">CCH® Answer<fo:inline font-family="FiraSans-bolditalic">Connect!</fo:inline></fo:inline>
                   	</fo:block>
                   	<fo:block>
@@ -451,7 +447,7 @@
                   	<fo:block>
                   		<xsl:choose>
                   			<xsl:when test="tag[1]/Version='Portal'">
-												Your user name is: <xsl:value-of select="tag[1]/ShipToEMAddress"/>
+												Your renewal user ID is: <xsl:value-of select="tag[1]/ShipToEMAddress"/>
                   		</xsl:when>
                   		<xsl:otherwise>
                   			&#160;
@@ -467,7 +463,7 @@
                     	color="white" 
                     	background="black">RENEWAL OPTIONS:</fo:block>
 
-						        <fo:table font="12pt FiraSans-regular" background="#ECEDEE">
+						        <fo:table font="12pt FiraSans-bold" background="#ECEDEE">
 						            <fo:table-column column-width="30%"/>
 						            <fo:table-column column-width="70%"/>
 						            <fo:table-body>
@@ -511,10 +507,17 @@ via customer support. Prices do not include sales tax or other fees including sh
 
 <!-- fold line 2 -->
                   	<fo:block>
+                  		<fo:inline margin-left="-0.5in" font-family="Zapf Dingbats">✂</fo:inline>
+											<fo:leader margin-right="-2.5in" leader-length="7.0in"
+											             leader-pattern="dots"
+											             alignment-baseline="middle"
+											             rule-thickness="0.5pt" color="black"/>
+<!--
 											<fo:leader margin-left="-1in" leader-length="8.15in"
 											             leader-pattern="dots"
 											             alignment-baseline="middle"
 											             rule-thickness="0.5pt" color="black"/>
+-->
 										</fo:block>
 										<fo:block font="6pt FiraSans-italic" text-align="center" >
 											DETACH AND RETURN <fo:inline font-family="Zapf Dingbats">  ▲</fo:inline>
@@ -702,7 +705,7 @@ via customer support. Prices do not include sales tax or other fees including sh
 	        </fo:block>
 	        
 	        <fo:block margin-top=".15in">
-	The cost of the renewal will be the subscription price in effect at the time of each renewal including applicable
+	The cost of the renewal will be the subscription price in effect at the time of each renewal, including applicable
 	sales tax and shipping and handling charges. Subscription renewal prices are subject to increase in the future.
 	Our customary shipping and handling charges will apply to all shipments of tangible subscription products and
 	are invoiced up front; such charges are based on shipping method, location and weight.
@@ -713,12 +716,11 @@ via customer support. Prices do not include sales tax or other fees including sh
 	        <fo:block margin-top=".15in">
 	Should you decide for any reason that you no longer wish to be enrolled in the automatic renewal program, or you
 	did not intend to enroll, you may cancel at any time. You can cancel by calling Customer Service at <fo:inline font-family="FiraSans-bold">800-344-3734,</fo:inline>
-	or emailing <fo:inline font-family="FiraSans-bold">CCHCustomerService@wolterskluwer.com</fo:inline>, or contacting me directly. You can also choose not to renew
+	or emailing <fo:inline font-family="FiraSans-bold">CCHCustomerService@wolterskluwer.com</fo:inline>, or contacting your solution consultant directly. You can also choose not to renew
 	at any time before the invoice is due by returning the invoice marked CANCEL SUBSCRIPTION.
-	Enrolling a subscription product under our automatic renewal
 	        </fo:block>
 	        <fo:block margin-top=".15in">
-	Enrolling a subscription product under our automatic renewal program does not affect our cancellation policy
+	Enrolling a subscription product under our Automatic Subscription Renewal Program does not affect our cancellation policy
 	which you can find at: <fo:inline font-family="FiraSans-bold">http://support.cch.com/Answers.</fo:inline>
 	        </fo:block>
 	      </fo:block>
