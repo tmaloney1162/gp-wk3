@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exsl="http://exslt.org/common" extension-element-prefixes="exsl"
     xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:svg="http://www.w3.org/2000/svg" version="1.0" xmlns:rx="http://www.renderx.com/XSL/Extensions">
+                
+
 <xsl:param name="monthDay" select="." />
 <xsl:param name="year" select="."/>
     
@@ -154,12 +156,16 @@
 	</xsl:otherwise>
 </xsl:choose>
 -->
+
+
+
+
+
 <!-- TABLE 1 - OPTION 2 -->
   <fo:table border=".25pt solid black" margin-bottom=".25in" border-after-width.conditionality="retain" rx:table-omit-initial-header="true">
       <fo:table-column column-width="15%"/>
       <fo:table-column column-width="70%"/>
       <fo:table-column column-width="15%"/>
-      
 
   		<fo:table-header>
 				<xsl:call-template name="page_3_table_header">
@@ -174,6 +180,25 @@
 						<xsl:with-param name="option" select="'2'"/>
 					</xsl:call-template>
 </xsl:if>
+
+		      <xsl:for-each select="tag">
+						<xsl:if test="not(Opt2ICFlag = 'C' and Opt2ACFlag = 'R') and not(Opt2ICFlag = 'C' and Opt2ACFlag = 'D')">
+
+		          <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
+		              <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="Opt2Material"/></fo:block>
+		              </fo:table-cell>
+		              <fo:table-cell border-left=".25pt solid black" border-right=".25pt solid black" padding-left=".2in">
+							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
+		              </fo:table-cell>
+		              <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="format-number(Opt2Price,'$###,###,###.00')"/></fo:block>
+		              </fo:table-cell>
+		          </fo:table-row>
+			      </xsl:if>
+		      </xsl:for-each>
+
+<!--
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -203,6 +228,8 @@
               	</fo:block>
               </fo:table-cell>
           </fo:table-row>
+          
+-->          
       </fo:table-body>
   </fo:table>
 
@@ -224,7 +251,79 @@
 						<xsl:with-param name="option" select="'3'"/>
 					</xsl:call-template>
 </xsl:if>
-      	
+
+<!--
+If there is an "R" in Column AP (Opt3ACFlag), we do not show the 
+products, description, price for the materials ONLY that are in Column AN (Opt3ACMaterial).
+
+Column AM (Opt3ICFlag) will never have an "R" flag, so we will need to show all of these items under Option 3 in the printing. 
+ --> 
+
+
+<xsl:variable name="tmpXML">
+		      <xsl:for-each select="tag">
+						<xsl:if test="not(Opt3ACFlag = 'R' or Opt3ACFlag = 'D')">
+							<tmpTag code="AC">
+								<material><xsl:value-of select="Opt3ACMaterial"/></material>
+								<desc><xsl:value-of select="FinalMaterialDesc"/></desc>
+								<price><xsl:value-of select="Opt3ACPrice"/></price>
+							</tmpTag>
+						</xsl:if>
+						<tmpTag code="IC">
+							<material><xsl:value-of select="Opt3ICMaterial"/></material>
+							<desc><xsl:value-of select="MaterialDesc"/></desc>
+							<price><xsl:value-of select="Opt3ICPrice"/></price>
+						</tmpTag>
+		      </xsl:for-each>
+</xsl:variable>
+
+
+<xsl:for-each select="exsl:node-set($tmpXML)/tmpTag">
+	<xsl:sort select="@code"/>
+						  <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
+						      <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="material"/></fo:block>
+						      </fo:table-cell>
+						      <fo:table-cell border-left=".25pt solid black" border-right=".25pt solid black" padding-left=".2in">
+							      	<fo:block><xsl:value-of select="desc"/></fo:block>
+						      </fo:table-cell>
+						      <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="format-number(price,'$###,###,###.00')"/></fo:block>
+						      </fo:table-cell>
+						  </fo:table-row>
+</xsl:for-each>
+
+<!--
+		      <xsl:for-each select="tag">
+						<xsl:if test="not(Opt3ACFlag = 'R' or Opt3ACFlag = 'D')">
+						  <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
+						      <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="Opt3ACMaterial"/> - AC</fo:block>
+						      </fo:table-cell>
+						      <fo:table-cell border-left=".25pt solid black" border-right=".25pt solid black" padding-left=".2in">
+							      	<fo:block><xsl:value-of select="FinalMaterialDesc"/></fo:block>
+						      </fo:table-cell>
+						      <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="format-number(Opt3ACPrice,'$###,###,###.00')"/></fo:block>
+						      </fo:table-cell>
+						  </fo:table-row>
+						</xsl:if>
+						<fo:table-row font="8pt FiraSans-regular" line-height=".3in">
+						    <fo:table-cell padding-left=".2in">
+						      	<fo:block><xsl:value-of select="Opt3ICMaterial"/> - IC</fo:block>
+						    </fo:table-cell>
+						    <fo:table-cell border-left=".25pt solid black" border-right=".25pt solid black" padding-left=".2in">
+						      	<fo:block><xsl:value-of select="MaterialDesc"/></fo:block>
+						    </fo:table-cell>
+						    <fo:table-cell padding-left=".2in">
+						      	<fo:block><xsl:value-of select="format-number(Opt3ICPrice,'$###,###,###.00')"/></fo:block>
+						    </fo:table-cell>
+						</fo:table-row>
+		      </xsl:for-each>
+-->
+
+
+<!--      	
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -263,6 +362,7 @@
               	</fo:block>
               </fo:table-cell>
           </fo:table-row>
+-->
       </fo:table-body>
   </fo:table>
  
@@ -286,6 +386,22 @@
 					</xsl:call-template>
 </xsl:if>
 
+		      <xsl:for-each select="tag">
+
+		          <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
+		              <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="Opt3ICMaterial"/></fo:block>
+		              </fo:table-cell>
+		              <fo:table-cell border-left=".25pt solid black" border-right=".25pt solid black" padding-left=".2in">
+							      	<fo:block><xsl:value-of select="MaterialDesc"/></fo:block>
+		              </fo:table-cell>
+		              <fo:table-cell padding-left=".2in">
+							      	<fo:block><xsl:value-of select="format-number(Opt1Price,'$###,###,###.00')"/></fo:block>
+		              </fo:table-cell>
+		          </fo:table-row>
+
+		      </xsl:for-each>
+<!--
           <fo:table-row font="8pt FiraSans-regular" line-height=".3in">
               <fo:table-cell border=".25pt solid black" padding-left=".2in">
               	<fo:block>
@@ -309,6 +425,8 @@
               	</fo:block>
               </fo:table-cell>
           </fo:table-row>
+          
+-->          
       </fo:table-body>
   </fo:table>
   
@@ -323,6 +441,9 @@
         <fo:block padding-top=".1in" padding-bottom=".1in" font="13pt FiraSans-regular" color="white" background="black">
 					<fo:block margin-left=".2in" >
 					<xsl:choose>
+						<xsl:when test="$option='0'">
+							TEST
+						</xsl:when>
 						<xsl:when test="$option='2'">
 							CCH® Answer<fo:inline font-family="FiraSans-italic">Connect</fo:inline>
 							<xsl:if test="$continued='y'"><fo:inline font-family="FiraSans-italic">&#160;&#160;&#160;continued</fo:inline></xsl:if>
@@ -506,12 +627,15 @@ via customer support. Prices do not include sales tax or other fees including sh
 						        </fo:block>
 
 <!-- fold line 2 -->
+
+
                   	<fo:block>
-                  		<fo:inline margin-left="-0.5in" font-family="Zapf Dingbats">✂</fo:inline>
-											<fo:leader margin-right="-2.5in" leader-length="7.0in"
+											<fo:leader margin-left="-0.5in" leader-length="7.0in"
 											             leader-pattern="dots"
 											             alignment-baseline="middle"
+											             vertical-align="super"
 											             rule-thickness="0.5pt" color="black"/>
+                  		<fo:inline font="16pt Zapf Dingbats">✂</fo:inline>
 <!--
 											<fo:leader margin-left="-1in" leader-length="8.15in"
 											             leader-pattern="dots"
@@ -536,7 +660,7 @@ via customer support. Prices do not include sales tax or other fees including sh
                       <fo:block>Riverwoods, IL 60015</fo:block>
                       <fo:block>800-344-3734</fo:block>
 
-                      <fo:block font="12pt FiraSans-medium" margin-top="1in">
+                      <fo:block font="12pt FiraSans-medium" margin-top="0.80in">
 			                	<xsl:call-template name="address_block">
 			                		<xsl:with-param name="showdate" select="'no'"/>
 			                	</xsl:call-template>
